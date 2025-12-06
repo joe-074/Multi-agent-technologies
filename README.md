@@ -1,56 +1,82 @@
-# Multi-Agent Technologies — SPbU (Master’s Program)
+# **Multiagent-technologies-SPbU-2025**
 
-This repository contains Python implementations of coursework tasks for the Multi-Agent Technologies subject at SPbU.
-The project focuses on distributed computation of the arithmetic mean in multi-agent systems under different communication models and uncertainties.
+Репозиторий содержит реализации заданий по курсу **«Мультиагентные технологии»** (Module 4 и Module 6) для магистратуры СПбГУ.  
+Работа выполнена на чистом Python и моделирует обмен сообщениями между агентами, вычисление среднего значения и согласование состояний при различных ограничениях коммуникации.
 
-
-# Module 4 — Decentralized Averaging
-
-Flooding-based algorithm where agents exchange values with neighbors until one agent collects all values and computes the mean.
-
-Reports:
-
-estimated mean
-
-error vs. true mean
-
-number of iterations
-
-message counts
-
-communication cost
-
-
-# Module 6 — Local Voting Protocol
-
-Consensus algorithm with noisy measurements, random delays, and switching communication links.
-
-Reports:
-
-final agent states
-
-consensus accuracy
-
-error vs. true mean
-
-total communication cost
 ---
 
-# Summary of Implemented Work
-Centralized Baseline
+## **Требования**
 
-A reference model where all agents send their values to a fusion center that computes the global mean.
+- Python **3.9+**
+- Внешние зависимости отсутствуют (используется только стандартная библиотека)
+
+---
+
+## **Как запускать**
+
+### **1. Централизованная система (`centralized_baseline.py`)**
+Агенты отправляют свои значения в центр, который вычисляет арифметическое среднее.
 
 
-## Repository Structure
+```bash
+python centralized_baseline.py
+```
 
-Planned / typical structure:
+## **2. Децентрализованная система (Module 4) — `decentralized_mean_sim.py`**
 
-```text
-.
-├── README.md                  # Project description and usage
-├── topology_utils.py          # Functions to create communication graphs (adjacency matrices)
-├── centralized_baseline.py    # Centralized averaging (reference solution)
-├── decentralized_mean_sim.py  # Module 4: decentralized averaging and communication-cost analysis
-└── local_voting_sim.py        # Module 6: local voting with noise, delays, and switching links
+Алгоритм реализует распространение знаний (flooding) по графу.  
+Агенты обмениваются значениями только с соседями, пока один из них не соберёт данные всех агентов и не вычислит среднее.
 
+Запуск:
+```bash
+python local_voting_sim.py
+```
+
+
+
+
+## **3. Локальное голосование (Module 6) — `local_voting_sim.py`**
+
+Реализовано локальное голосование с шумами, задержками и переключающимися рёбрами.  
+Агенты обновляют свои состояния по стохастическому правилу согласования.
+
+Эти топологии используются при моделировании обмена сообщениями.
+
+
+
+## **Топологии связи (`topology_utils.py`)**
+
+Файл генерирует различные графы:
+- линейная цепочка  
+- кольцо  
+- полный граф  
+- случайный связный граф
+
+
+
+## **Описание алгоритмов**
+
+### **Децентрализованное усреднение (Module 4)**
+
+1. Каждый агент знает только своё значение.  
+2. На каждом шаге отправляет словарь знаний соседям.  
+3. Обновляет свой словарь на основе входящих сообщений.  
+4. Как только агент узнал все значения — отправляет среднее в центр и завершает работу остальных.
+
+### **Локальное голосование (Module 6)**
+
+1. Агенты измеряют собственное состояние с шумом.  
+2. Получают задержанные шумные состояния соседей (если связь активна).  
+3. Обновляют своё состояние по формуле локального голосования.  
+4. Система стремится к консенсусу (приближению к среднему).
+
+
+
+## **Структура репозитория**
+
+```bash
+├── README.md
+├── topology_utils.py
+├── centralized_baseline.py
+├── decentralized_mean_sim.py
+└── local_voting_sim.py
