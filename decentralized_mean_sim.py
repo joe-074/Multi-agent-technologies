@@ -1,23 +1,3 @@
-"""
-decentralized_mean_sim.py
-
-Module 4: Decentralized computation of the arithmetic mean in a multi-agent system.
-
-Each agent initially knows only its own scalar value. Agents exchange information
-only with neighbors according to a fixed communication topology (adjacency matrix).
-Information spreads (flooding) through the network until at least one agent knows
-all values and can compute the global mean.
-
-We record:
-- true mean (for reference only)
-- estimated mean from the decentralized algorithm
-- residual error
-- number of iterations
-- number of inter-agent messages
-- number of messages to the fusion center
-- total communication cost
-"""
-
 from __future__ import annotations
 
 import random
